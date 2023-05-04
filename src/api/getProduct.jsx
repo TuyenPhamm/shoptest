@@ -2,7 +2,7 @@ import axios from 'axios';
 const DataContext = {
     getData: async () => {
         try {
-            const response = await axios.get('https://fakestoreapi.com/products/');
+            const response = await axios.get('https://fakestoreapi.com/products/?limit=6');
             return response.data;
         } catch (error) {
             console.error(error);

@@ -5,12 +5,15 @@
     padding-left: 10%;
     list-style-type: none;
 
+
 }
 .text-heading{
     text-align: center;
 }
-.img-product{
-    width: 20%;
+.img-product-detail{
+    width: 25%;
     height: 60%;
-   
-  }
+}
+.close{
+    text-decoration: none;
+}

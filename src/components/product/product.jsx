@@ -15,23 +15,20 @@ function Home() {
         fetchData();
     }, [])
 
-    useEffect(() => {
-        setProducts(products)
-    }, [products])
     return (
-        <div >
+        <div className='body' >
             <h1 className='text-heading'>ShopOT</h1>
-            <ul className='body'>
+            <ul className='body-product'>
                 {products && products.map((product) => (
                     <li className='product' key={product.id}>
-                        <h3><Link to={`/products/${product.id}`} >
+                        <h3 className='title-product'><Link to={`/products/${product.id}`} className='text-title'>
                             {product.title}
                         </Link>
                         </h3>
                         <Link to={`/products/${product.id}`}>
                             <img className='img-product' src={product.image} alt={product.title} />
                         </Link>
-                        <p>Price: {product.price} USD</p>
+                        <p className='price-product'>Price: {product.price} USD</p>
 
                     </li>
                 ))}

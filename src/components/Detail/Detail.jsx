@@ -21,9 +21,9 @@ function ProductDetail() {
             {product ? (
                 <>
                     <h3>{product.title}</h3>
-                    <img className='img-product' src={product.image} alt={product.title} />
-                    <p>Price: {product.price} USD</p>
-                    <Link to={`/`}> <h1 >X</h1> </Link>
+                    <img className='img-product-detail' src={product.image} alt={product.title} />
+                    <p className='price-product'>Price: {product.price} USD</p>
+                    <Link className='close' to={`/`}> <h1 >X</h1> </Link>
                 </>
             ) : (
                 <div>Loading...</div>
