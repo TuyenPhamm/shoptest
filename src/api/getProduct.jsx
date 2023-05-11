@@ -16,6 +16,17 @@ const DataContext = {
         } catch (error) {
             console.error(error);
         }
+    },
+
+    addToCart: async (productId) => {
+        try {
+            const response = await axios.post('https://fakestoreapi.com/carts', {
+                productId: productId
+            });
+            return response.data;
+        } catch (error) {
+            console.error(error);
+        }
     }
 };
 

@@ -1,12 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Link, BrowserRouter as Router } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import getProduct from '../../api/getProduct';
 import './product.css'
+import { BiCart } from 'react-icons/bi'
 
 
 function Home() {
     const [products, setProducts] = useState([]);
+    const [cartItems, setCartItems] = useState([]);
     useEffect(() => {
         async function fetchData() {
             const data = await getProduct.getData();
@@ -14,10 +16,16 @@ function Home() {
         }
         fetchData();
     }, [])
-
+    const handleAddToCart = (product) => {
+        setCartItems([...cartItems, product]);
+        console.log(product)
+    };
     return (
         <div className='body' >
-            <h1 className='text-heading'>ShopOT</h1>
+            <div className='heading'>
+                <h1 className='text-heading'>ShopOT</h1>
+                <Link to={`/products/cart`}><BiCart className='icon-cart' /></Link>
+            </div>
             <ul className='body-product'>
                 {products && products.map((product) => (
                     <li className='product' key={product.id}>
@@ -29,6 +37,7 @@ function Home() {
                             <img className='img-product' src={product.image} alt={product.title} />
                         </Link>
                         <p className='price-product'>Price: {product.price} USD</p>
+                        <button onClick={() => handleAddToCart(product)}>Add to cart</button>
 
                     </li>
                 ))}
