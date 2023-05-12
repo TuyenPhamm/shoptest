@@ -1,22 +1,42 @@
-import React, { useContext } from 'react';
-import { user } from './data';
+import React, { useEffect, useState } from 'react';
 
-function AddToCart({ productId }) {
+function CartPage({ cartItems }) {
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        calculateTotalPrice();
+    }, [cartItems]);
+
+    function calculateTotalPrice() {
+        if (cartItems && cartItems.length > 0) {
+            const totalPrice = cartItems.reduce((total, item) => {
+                return total + item.price * item.quantity;
+            }, 0);
+            setTotalPrice(totalPrice);
+        } else {
+            setTotalPrice(0);
+        }
+        console.log(cartItems)
+    }
     return (
-        <div className='body' >
-
-            <ul className='body-product'>
-                {user && user.map((product) => (
-                    <li className='product' key={product.id}>
-                        <h3 className='title-product'>{product.title}</h3>
-                        <img className='img-product' src={product.image} alt={product.title} />
-                        <p className='price-product'>Price: {product.price} USD</p>
-                    </li>
-                ))}
-
+        <div>
+            <h1>Cart</h1>
+            <ul>
+                {cartItems && cartItems.length > 0 ? (
+                    cartItems.map((item) => (
+                        <li key={cartItems.id}>
+                            <span>{cartItems.title}</span>
+                            <span>Price: {cartItems.price} USD</span>
+                            <span>Quantity: {cartItems.quantity}</span>
+                        </li>
+                    ))
+                ) : (
+                    <p>No items in the cart.</p>
+                )}
             </ul>
-        </div >
+            <p>Total Price: {totalPrice} USD</p>
+        </div>
     );
 }
 
-export default AddToCart;
+export default CartPage;

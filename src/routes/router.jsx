@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 import ProductDetail from "../components/Detail/Detail"
 import Home from "../components/product/product"
-import Cart from '../components/Cart/addCart'
+import CartPage from '../components/Cart/addCart'
 
 function PublicRoutes() {
     return (
@@ -17,7 +17,7 @@ function PublicRoutes() {
             />
             <Route
                 path='/products/cart'
-                element={<Cart />}
+                element={<CartPage />}
             />
         </Routes>
     )
