@@ -58,6 +58,7 @@ import './product.css';
 function Home() {
     const [products, setProducts] = useState([]);
     const [cartItems, setCartItems] = useState([]);
+    var arrCart = [];
     // const [cartItemsCount, setCartItemsCount] = useState(0);
 
     useEffect(() => {
@@ -83,13 +84,14 @@ function Home() {
         // setCartItemsCount(cartItems.length);
     }
 
-    // const handleAddToCart = async (product) => {
-    //     const addedProduct = await getProduct.addToCart(product.id);
-    //     if (addedProduct) {
-    //         setCartItems([...cartItems, addedProduct]);
-    //         localStorage.setItem('cartItems', JSON.stringify([...cartItems, addedProduct]));
-    //     }
-    // };
+    const handleAddToCart = async (product) => {
+        var cart = localStorage.getItem('cart');
+        if(cart !== null) {
+            arrCart = JSON.parse(cart);
+        }
+        arrCart = [...arrCart, product];
+        localStorage.setItem("cart", JSON.stringify(arrCart));
+    };
 
     return (
         <div className="body">
@@ -112,7 +114,7 @@ function Home() {
                         </Link>
                         <p className="price-product">Price: {product.price} USD</p>
                         {/* <button onClick={() => handleAddToCart(product)}>Add to cart</button> */}
-                        <button >Add to cart</button>
+                        <button onClick={() => handleAddToCart(product)}>Add to cart</button>
                     </li>
                 ))}
             </ul>
