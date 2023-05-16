@@ -59,7 +59,6 @@ function Home() {
     const [products, setProducts] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     var arrCart = [];
-    // const [cartItemsCount, setCartItemsCount] = useState(0);
 
     useEffect(() => {
         async function fetchData() {
@@ -86,10 +85,20 @@ function Home() {
 
     const handleAddToCart = async (product) => {
         var cart = localStorage.getItem('cart');
-        if(cart !== null) {
+        if(cart != null && JSON.parse(cart).length > 0) {
             arrCart = JSON.parse(cart);
+            var result = arrCart.findIndex(({ id }) => id === product.id);
+            if(result > -1) {
+                arrCart[result].quantity = arrCart[result].quantity + 1;
+            }else {
+                var pro = {...product, quantity : 1};
+                arrCart = [...arrCart, pro];
+            }
+        }else {
+            var pro = {...product, quantity : 1};
+            arrCart = [...arrCart, pro];
         }
-        arrCart = [...arrCart, product];
+
         localStorage.setItem("cart", JSON.stringify(arrCart));
     };
 
