@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
-
+import './Cart.css';
 function CartPage({ cartItems }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [cartItem, setCartItem] = useState([]);
-
+    const handelChangeCart = async (item) => {
+        var result = cartItem.findIndex(({ id }) => id === item.id);
+        if (result > 1) {
+            cartItem[result].quantity = cartItem[result].quantity + 1;
+        }
+    }
     useEffect(() => {
         var cart = localStorage.getItem('cart');
         setCartItem(JSON.parse(cart));
     }, []);
-
-    useEffect(() => {
-        calculateTotalPrice();
-    }, [cartItems]);
 
     function calculateTotalPrice() {
         if (cartItems && cartItems.length > 0) {
@@ -28,30 +29,30 @@ function CartPage({ cartItems }) {
         <div>
             <h1>Cart</h1>
             <ul>
-                {/* {cartItems && cartItems.length > 0 ? (
-                    cartItems.map((item) => (
-                        <li key={cartItems.id}>
-                            <span>{cartItems.title}</span>
-                            <span>Price: {cartItems.price} USD</span>
-                            <span>Quantity: {cartItems.quantity}</span>
-                        </li>
-                    ))
-                ) : (
-                    <p>No items in the cart.</p>
-                )} */}
                 {cartItem && cartItem.length > 0 ? (
                     cartItem.map((item) => (
-                        <li key={item.id}>
-                            <span>{item.title}</span>
-                            <span>Price: {item.price} USD</span>
-                            <span>Quantity: {item.quantity}</span>
-                        </li>
+                        <div className='cart-body' key={item.id}>
+                            <div>
+                                <span>{item.title}</span>
+                            </div>
+                            <div>
+                                <img className='cart-img' src={item.image} alt={item.title} />
+                            </div>
+                            <div>
+                                <span>Price: {item.price} USD</span>
+                            </div>
+                            <div>
+                                <span>Số lượng: {item.quantity}</span>
+                            </div>
+                            <button onClick={handelChangeCart}>Xóa</button>
+                            <button>Thêm </button>
+                        </div>
                     ))
                 ) : (
                     <p>No items in the cart.</p>
                 )}
             </ul>
-            <p>Total Price: {totalPrice} USD</p>
+            {/* <p>Total Price: {(item.price) * (item.quantity)} USD</p> */}
         </div>
     );
 }
