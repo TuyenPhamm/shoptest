@@ -3,12 +3,19 @@ import './Cart.css';
 function CartPage({ cartItems }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [cartItem, setCartItem] = useState([]);
-    const handelChangeCart = async (item) => {
-        var result = cartItem.findIndex(({ id }) => id === item.id);
-        if (result > 1) {
-            cartItem[result].quantity = cartItem[result].quantity + 1;
+    function calculateTotalPrice() {
+        if (cartItem && cartItem.length > 0) {
+            const totalPrice = cartItem.reduce((total, item) => {
+                return total + item.price * item.quantity;
+            }, 0);
+            setTotalPrice(totalPrice);
+        } else {
+            setTotalPrice(0);
         }
     }
+
+    console.log(cartItem)
+
     useEffect(() => {
         var cart = localStorage.getItem('cart');
         setCartItem(JSON.parse(cart));
@@ -17,7 +24,7 @@ function CartPage({ cartItems }) {
     function calculateTotalPrice() {
         if (cartItems && cartItems.length > 0) {
             const totalPrice = cartItems.reduce((total, item) => {
-                return total + item.price * item.quantity;
+                item.quantity = item.quantity - 1
             }, 0);
             setTotalPrice(totalPrice);
         } else {
@@ -44,7 +51,7 @@ function CartPage({ cartItems }) {
                             <div>
                                 <span>Số lượng: {item.quantity}</span>
                             </div>
-                            <button onClick={handelChangeCart}>Xóa</button>
+                            <button onClick={calculateTotalPrice}>Xóa</button>
                             <button>Thêm </button>
                         </div>
                     ))
