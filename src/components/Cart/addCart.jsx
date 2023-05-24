@@ -20,7 +20,11 @@ function CartPage({ cartItems }) {
         var cart = localStorage.getItem('cart');
         setCartItem(JSON.parse(cart));
     }, []);
-
+    
+    const handleAddQuantity = (id) => {
+        const index = cartItem.findIndex(item => item.id === id);
+        index && cartItem[index].quantity = cartItem[index].quantity + 1;
+    }
     function calculateTotalPrice() {
         if (cartItems && cartItems.length > 0) {
             const totalPrice = cartItems.reduce((total, item) => {
@@ -52,7 +56,7 @@ function CartPage({ cartItems }) {
                                 <span>Số lượng: {item.quantity}</span>
                             </div>
                             <button onClick={calculateTotalPrice}>Xóa</button>
-                            <button>Thêm </button>
+                            <button onClick={() => {handleAddQuantity(item.id);}}>Thêm </button>
                         </div>
                     ))
                 ) : (
