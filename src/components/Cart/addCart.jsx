@@ -3,6 +3,7 @@ import './Cart.css';
 function CartPage({ cartItems }) {
     const [totalPrice, setTotalPrice] = useState(0);
     const [cartItem, setCartItem] = useState([]);
+    // const [render, setRender] =
     function calculateTotalPrice() {
         if (cartItem && cartItem.length > 0) {
             const totalPrice = cartItem.reduce((total, item) => {
@@ -14,16 +15,22 @@ function CartPage({ cartItems }) {
         }
     }
 
-    console.log(cartItem)
-
     useEffect(() => {
         var cart = localStorage.getItem('cart');
         setCartItem(JSON.parse(cart));
     }, []);
-    
-    const handleAddQuantity = (id) => {
-        const index = cartItem.findIndex(item => item.id === id);
-        index && cartItem[index].quantity = cartItem[index].quantity + 1;
+
+    function handleAddQuantity(index){
+        const newCart = cartItem.map((item, i) => {
+            if (index == i) {
+                item.quantity+=1;
+            }
+            return item;
+        })
+        setCartItem(newCart);
+
+        localStorage.removeItem('cart');
+        localStorage.setItem("cart", JSON.stringify(cartItem));
     }
     function calculateTotalPrice() {
         if (cartItems && cartItems.length > 0) {
@@ -34,14 +41,13 @@ function CartPage({ cartItems }) {
         } else {
             setTotalPrice(0);
         }
-        console.log(cartItems)
     }
     return (
         <div>
             <h1>Cart</h1>
             <ul>
                 {cartItem && cartItem.length > 0 ? (
-                    cartItem.map((item) => (
+                    cartItem.map((item, index) => (
                         <div className='cart-body' key={item.id}>
                             <div>
                                 <span>{item.title}</span>
@@ -56,7 +62,7 @@ function CartPage({ cartItems }) {
                                 <span>Số lượng: {item.quantity}</span>
                             </div>
                             <button onClick={calculateTotalPrice}>Xóa</button>
-                            <button onClick={() => {handleAddQuantity(item.id);}}>Thêm </button>
+                            <button onClick={() => handleAddQuantity(index)}>Thêm </button>
                         </div>
                     ))
                 ) : (
