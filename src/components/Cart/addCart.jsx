@@ -32,15 +32,18 @@ function CartPage({ cartItems }) {
         localStorage.removeItem('cart');
         localStorage.setItem("cart", JSON.stringify(cartItem));
     }
-    function calculateTotalPrice() {
-        if (cartItems && cartItems.length > 0) {
-            const totalPrice = cartItems.reduce((total, item) => {
-                item.quantity = item.quantity - 1
-            }, 0);
-            setTotalPrice(totalPrice);
-        } else {
-            setTotalPrice(0);
-        }
+    function calculateTotalPrice(index) {
+        const newCart = cartItem.map((item, i) => {
+            if (index == i) {
+                item.quantity-=1;
+            }
+            return item;
+        })
+        newCart = newCart.filter(item => item.quantity > 0);
+         setCartItem(newCart);
+
+        localStorage.removeItem('cart');
+        localStorage.setItem("cart", JSON.stringify(cartItem));
     }
     return (
         <div>
@@ -61,7 +64,7 @@ function CartPage({ cartItems }) {
                             <div>
                                 <span>Số lượng: {item.quantity}</span>
                             </div>
-                            <button onClick={calculateTotalPrice}>Xóa</button>
+                            <button onClick={() => calculateTotalPrice(index)}>Xóa</button>
                             <button onClick={() => handleAddQuantity(index)}>Thêm </button>
                         </div>
                     ))
